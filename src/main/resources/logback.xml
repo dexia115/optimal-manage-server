@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<configuration>  
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+	<property name="APP_NAME" value="biz" />
+	<property name="LOG_HOME" value="./logs/optimal-manage-server" />
+	<property name="LOG_FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level %X{_global_msg_id} %thread  %logger[%method:%line] - %msg%n"/>
+	<property name="CONSOLE_FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level %X{_global_msg_id} %thread  %logger[%method:%line] - %msg%n"/>
+    
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">  
+        <encoder>  
+            <pattern>${CONSOLE_FILE_PATTERN}</pattern>  
+            <charset>UTF-8</charset>  
+        </encoder>  
+    </appender>  
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+        <file>${LOG_HOME}/${APP_NAME}.log</file>  
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
+            <!-- daily rollover 保存历史记录到这个文件夹一日起为后缀 -->  
+            <fileNamePattern>${LOG_HOME}/$${date:yyyyMM}/${APP_NAME}.%d{yyyyMMdd}.log</fileNamePattern>  
+            <!-- keep 60 days' worth of history -->  
+            <maxHistory>60</maxHistory>  
+        </rollingPolicy>  
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">  
+            <maxFileSize>10MB</maxFileSize>  
+        </triggeringPolicy>  
+        <encoder>  
+            <pattern>${LOG_FILE_PATTERN}</pattern>  
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->  
+        </encoder>  
+    </appender>  
+    <root level="INFO">  
+        <appender-ref ref="CONSOLE"></appender-ref>  
+        <appender-ref ref="FILE"></appender-ref>  
+    </root>  
+</configuration>

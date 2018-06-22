@@ -1,0 +1,9 @@
+CONFIG_SERVER_URL: http://127.0.0.1:8888
+
+spring:
+  application:
+    name: optimal-manage-server
+  cloud:
+    config:
+      enabled: false
+      uri: ${CONFIG_SERVER_URL}
