@@ -3,6 +3,9 @@ server:
   tomcat:
     uri-encoding: UTF-8
 spring: 
+  profiles:
+    active: dev
+    include: swagger
   devtools:
     restart:
       enabled: false
@@ -35,4 +38,15 @@ spring:
       charset: UTF-8
     multipart:
       max-file-size: 10240576
+      
+optimal:
+  module:
+    manage:
+      app-name: optimal-manage-server
+      prefix-cloud-api: /manage/cloud/api
+  swagger:
+    title: Optimal-口袋喵后台管理
+      
+
+      
   

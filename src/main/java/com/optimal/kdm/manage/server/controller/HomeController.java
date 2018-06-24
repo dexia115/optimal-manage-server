@@ -10,6 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import com.optimal.kdm.common.utils.Constants;
+import com.optimal.kdm.manage.server.utils.AuthorityUtil;
+import com.optimal.kdm.module.manage.api.vo.account.AuthorityVo;
+import com.optimal.kdm.module.manage.api.vo.account.RoleVo;
+import com.optimal.kdm.module.manage.api.vo.account.UserVo;
 import com.optimal.kdm.module.manage.biz.service.AccountService;
 
 @Controller
@@ -21,29 +26,29 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
-//		String username = AuthorityUtil.getLoginUsername();
-//		UserVo userVo = accountService.findUserByField("userName", username);
-//		List<AuthorityVo> authorities = new ArrayList<AuthorityVo>();
-//		List<RoleVo> roles = userVo.getRoleVoList();
-//		Map<Long,AuthorityVo> authMap = new HashMap<>();
-//		roles.forEach(r -> {
-//	    	List<AuthorityVo> auths = r.getAuthorityVos();
-//	    	for(AuthorityVo auth : auths){
-//	    		if(auth.getMethod() == Constants.AUTHORITY_MENU){
-//	    			if(auth.getParentId() == null){
-//	    				authorities.add(auth);
-//	    				authMap.put(auth.getId(), auth);
-//	    			}else{
-//	    				Long pid = auth.getParentId();
-//	    				AuthorityVo authVo = authMap.get(pid);
-//	    				if(authVo != null){
-//	    					authVo.getChildren().add(auth);
-//	    				}
-//	    			}
-//	    		}
-//	    	}
-//	    });
-//		model.addAttribute("authorities", authorities);
+		String username = AuthorityUtil.getLoginUsername();
+		UserVo userVo = accountService.findUserByField("userName", username);
+		List<AuthorityVo> authorities = new ArrayList<AuthorityVo>();
+		List<RoleVo> roles = userVo.getRoleVoList();
+		Map<Long,AuthorityVo> authMap = new HashMap<>();
+		roles.forEach(r -> {
+	    	List<AuthorityVo> auths = r.getAuthorityVos();
+	    	for(AuthorityVo auth : auths){
+	    		if(auth.getMethod() == Constants.AUTHORITY_MENU){
+	    			if(auth.getParentId() == null){
+	    				authorities.add(auth);
+	    				authMap.put(auth.getId(), auth);
+	    			}else{
+	    				Long pid = auth.getParentId();
+	    				AuthorityVo authVo = authMap.get(pid);
+	    				if(authVo != null){
+	    					authVo.getChildren().add(auth);
+	    				}
+	    			}
+	    		}
+	    	}
+	    });
+		model.addAttribute("authorities", authorities);
 		
 		return "home";
 	}
